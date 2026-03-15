@@ -1,25 +1,36 @@
+
+# Internship Assesment
+
+
+
 # Django REST Framework Assignment
 
-This project is a backend API built using **Django** and **Django REST Framework (DRF)**.  
-It manages relationships between **Vendors, Products, Courses, and Certifications** using mapping tables and provides fully functional REST APIs.
+This project implements a REST API using **Django** and **Django REST Framework** to manage relationships between:
+
+- Vendors
+- Products
+- Courses
+- Certifications
+
+The system also manages mapping relationships between these entities.
 
 Swagger documentation is included for easy API testing.
 
 ---
 
-## Tech Stack
+# Tech Stack
 
 - Python
 - Django
 - Django REST Framework
-- drf-yasg (Swagger API Documentation)
-- SQLite (default Django database)
+- drf-yasg (Swagger documentation)
+- SQLite
 
 ---
 
-## Project Structure
+# Project Structure
 
-
+```
 project/
 │
 ├── vendor/
@@ -31,228 +42,296 @@ project/
 ├── product_course_mapping/
 ├── course_certification_mapping/
 │
-├── config/ (project settings)
+├── config/
+│
 ├── manage.py
+├── requirements.txt
+└── README.md
+```
+# Installed Apps
 
+The following apps are included in the project:
 
----
-
-## Features Implemented
-
-### Master Entities
-The following master entities are implemented:
-
-- Vendor
-- Product
-- Course
-- Certification
-
-Each entity contains:
-
-- id
-- name
-- code
-- description
-- is_active
-- created_at
-- updated_at
+- vendor
+- product
+- course
+- certification
+- vendor_product_mapping
+- product_course_mapping
+- course_certification_mapping
+- rest_framework
+- drf_yasg
 
 ---
 
-### Mapping Relationships
+# Setup Instructions
 
-The system supports the following mappings:
+### 1. Clone the Repository
 
-| Mapping | Description |
-|------|------|
-| Vendor → Product | Vendors can be mapped to multiple products |
-| Product → Course | Products can be mapped to courses |
-| Course → Certification | Courses can be mapped to certifications |
+```bash
+git clone <repository-url>
+```
+### 2. Create Virtual 
+```
+python -m venv venv
+```
+#### Activate it:
 
----
+Windows
+```
+venv\Scripts\activate
+```
+Linux / Mac
+```
+source venv/bin/activate
+```
+### 3. Install Dependencies
+```
+pip install -r requirements.
+```
+### 4. Migration Steps
 
-### Validations Implemented
+Run database migrations:
+```
+python manage.py makemigrations
+python manage.py migrate
+```
 
-The following validations are enforced:
+This will create the database schema.
 
-- Required field validation
-- Unique `code` for master records
-- Duplicate mapping prevention
-- Valid foreign key references
-- Only **one `primary_mapping=True` allowed per parent**
+----
+### 5. Run the Development Server
+
+Start the server using:
+```
+python manage.py runserver
+```
+
+The server will run at:
+```
+http://127.0.0.1:8000/
+```
+### 6. Swagger API Documentation
+
+Swagger UI is available for testing APIs.
+
+Open:
+```
+http://127.0.0.1:8000/swagger/
+```
+You can use Swagger to execute API requests directly.
+
+ ### 7. API Endpoints
+
+
+All APIs are available under the base path:
+
+```
+/api/
+```
+Interactive testing is available via Swagger:
+```
+http://127.0.0.1:8000/swagger/
+```
+#### Vendor APIs
+
+Create Vendor
+```
+Endpoint
+
+POST /api/vendors/
+```
+
+Request Body
+```
+{
+  "name": "Vendor A",
+  "code": 101,
+  "description": "Example vendor",
+  "is_active": true
+}
+```
+Response
+```
+{
+  "id": 1,
+  "name": "Vendor A",
+  "code": 101,
+  "description": "Example vendor",
+  "is_active": true,
+  "created_at": "2026-03-15T10:00:00Z",
+  "updated_at": "2026-03-15T10:00:00Z"
+}
+```
+Get All Vendors
+```
+GET /api/vendors/
+```
+Returns a list of all vendors.
+
+Get Vendor by ID
+```
+GET /api/vendors/{id}/
+```
+Example:
+```
+GET /api/vendors/1/
+```
+Update Vendor
+```
+PUT /api/vendors/{id}/
+```
+Delete Vendor
+```
+DELETE /api/vendors/{id}/
+```
+#### Product APIs
+Create Product
+```
+POST /api/products/
+```
+Example request:
+```
+{
+  "name": "Product A",
+  "code": 201,
+  "description": "Example product",
+  "is_active": true
+}
+```
+Product Endpoints
+```
+GET    /api/products/
+GET    /api/products/{id}/
+PUT    /api/products/{id}/
+DELETE /api/products/{id}/
+```
+#### Course APIs
+Create Course
+```
+POST /api/courses/
+```
+Example request:
+```
+{
+  "name": "Course A",
+  "code": 301,
+  "description": "Example course",
+  "is_active": true
+}
+```
+Course Endpoints
+```
+GET    /api/courses/
+GET    /api/courses/{id}/
+PUT    /api/courses/{id}/
+DELETE /api/courses/{id}/
+```
+#### Certification APIs
+
+Create Certification
+```
+POST /api/certifications/
+```
+Example request:
+```
+{
+  "name": "Certification A",
+  "code": 401,
+  "description": "Example certification",
+  "is_active": true
+}
+```
+Certification Endpoints
+```
+GET    /api/certifications/
+GET    /api/certifications/{id}/
+PUT    /api/certifications/{id}/
+DELETE /api/certifications/{id}/
+```
+----
+#### Mapping APIs
+
+
+
+These APIs manage relationships between master entities.
+
+#### Vendor → Product Mapping
+
+Create mapping:
+```
+POST /api/vendor-product-mappings/
+```
+Example request:
+```
+{
+  "vendor": 1,
+  "product": 1,
+  "primary_mapping": true,
+  "is_active": true
+}
+```
+Endpoints:
+```
+GET    /api/vendor-product-mappings/
+PUT    /api/vendor-product-mappings/{id}/
+DELETE /api/vendor-product-mappings/{id}/
+```
+#### Product → Course Mapping
+Create mapping:
+```
+POST /api/product-course-mappings/
+```
+Example request:
+```
+{
+  "product": 1,
+  "course": 1,
+  "primary_mapping": true,
+  "is_active": true
+}
+```
+Endpoints:
+```
+GET    /api/vendor-product-mappings/
+PUT    /api/vendor-product-mappings/{id}/
+DELETE /api/vendor-product-mappings/{id}/
+```
+#### Course → Certification Mapping
+Create mapping:
+```
+POST /api/course-certification-mappings/
+```
+Example request:
+```
+{
+  "course": 1,
+  "certification": 1,
+  "primary_mapping": true,
+  "is_active": true
+}
+```
+Endpoints:
+```
+GET    /api/vendor-product-mappings/
+PUT    /api/vendor-product-mappings/{id}/
+DELETE /api/vendor-product-mappings/{id}/
+```
+### 8. Validation Rules
+
+The following rules are enforced by the API:
+```
+Required field validation
+
+Unique code for master entities
+
+Duplicate mapping prevention
+
+Valid foreign key references
+
+Only one primary_mapping=True allowed per parent entity
+```
 
 Example:
 
-Vendor → only one primary product allowed.
-
----
-
-## API Endpoints
-
-### Vendor
-
-
-GET /api/vendors/
-POST /api/vendors/
-GET /api/vendors/{id}/
-PUT /api/vendors/{id}/
-DELETE /api/vendors/{id}/
-
-
-### Product
-
-
-GET /api/products/
-POST /api/products/
-GET /api/products/{id}/
-PUT /api/products/{id}/
-DELETE /api/products/{id}/
-
-
-### Course
-
-
-GET /api/courses/
-POST /api/courses/
-GET /api/courses/{id}/
-PUT /api/courses/{id}/
-DELETE /api/courses/{id}/
-
-
-### Certification
-
-
-GET /api/certifications/
-POST /api/certifications/
-GET /api/certifications/{id}/
-PUT /api/certifications/{id}/
-DELETE /api/certifications/{id}/
-
-
-### Mapping APIs
-
-Vendor → Product
-
-
-GET /api/vendor-product-mappings/
-POST /api/vendor-product-mappings/
-PUT /api/vendor-product-mappings/{id}/
-DELETE /api/vendor-product-mappings/{id}/
-
-
-Product → Course
-
-
-GET /api/product-course-mappings/
-POST /api/product-course-mappings/
-PUT /api/product-course-mappings/{id}/
-DELETE /api/product-course-mappings/{id}/
-
-
-Course → Certification
-
-
-GET /api/course-certification-mappings/
-POST /api/course-certification-mappings/
-PUT /api/course-certification-mappings/{id}/
-DELETE /api/course-certification-mappings/{id}/
-
-
----
-
-## Swagger Documentation
-
-Swagger UI is available for interactive API testing.
-
-Open in browser:
-
-
-http://127.0.0.1:8000/swagger/
-
-
----
-
-## Setup Instructions
-
-### 1. Clone Repository
-
-
-git clone <repository-url>
-cd project
-
-
-### 2. Create Virtual Environment
-
-
-python -m venv venv
-
-
-Activate environment:
-
-Windows
-
-
-venv\Scripts\activate
-
-
-Linux / Mac
-
-
-source venv/bin/activate
-
-
----
-
-### 3. Install Dependencies
-
-
-pip install -r requirements.txt
-
-
----
-
-### 4. Apply Migrations
-
-
-python manage.py migrate
-
-
----
-
-### 5. Run Development Server
-
-
-python manage.py runserver
-
-
-Server will start at:
-
-
-http://127.0.0.1:8000/
-
-
----
-
-## Testing APIs
-
-You can test APIs using:
-
-- Swagger UI
-- Postman
-- curl
-
-Swagger is recommended for quick testing.
-
----
-
-## Notes
-
-- SQLite is used for development.
-- Migrations are included to allow easy database setup.
-- Database file (`db.sqlite3`) is excluded from version control.
-
----
-
-## Author
-
-Assignment submission for Django Backend Internship.
+A vendor cannot have two primary product mappings.
