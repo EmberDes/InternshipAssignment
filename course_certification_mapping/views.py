@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import CourseCertificationMapping
 from .serializers import CourseCertificationMappingSerializer
-
+from drf_yasg.utils import swagger_auto_schema
 
 class CourseCertificationMappingListCreate(APIView):
 
@@ -12,6 +12,7 @@ class CourseCertificationMappingListCreate(APIView):
         serializer = CourseCertificationMappingSerializer(objects, many=True)
         return Response(serializer.data)
 
+    @swagger_auto_schema(request_body=CourseCertificationMappingSerializer)
     def post(self, request):
         serializer = CourseCertificationMappingSerializer(data=request.data)
 
@@ -32,6 +33,7 @@ class CourseCertificationMappingDetail(APIView):
         serializer = CourseCertificationMappingSerializer(obj)
         return Response(serializer.data)
 
+    @swagger_auto_schema(request_body=CourseCertificationMappingSerializer)
     def put(self, request, id):
         obj = self.get_object(id)
         serializer = CourseCertificationMappingSerializer(obj, data=request.data)

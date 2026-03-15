@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Product
 from .serializers import ProductSerializer
-
+from drf_yasg.utils import swagger_auto_schema
 
 class ProductListCreate(APIView):
 
@@ -12,6 +12,7 @@ class ProductListCreate(APIView):
         serializer = ProductSerializer(objects, many=True)
         return Response(serializer.data)
 
+    @swagger_auto_schema(request_body=ProductSerializer)
     def post(self, request):
         serializer = ProductSerializer(data=request.data)
 
@@ -32,6 +33,7 @@ class ProductDetail(APIView):
         serializer = ProductSerializer(obj)
         return Response(serializer.data)
 
+    @swagger_auto_schema(request_body=ProductSerializer)
     def put(self, request, id):
         obj = self.get_object(id)
         serializer = ProductSerializer(obj, data=request.data)

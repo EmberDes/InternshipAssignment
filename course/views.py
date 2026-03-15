@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Course
 from .serializers import CourseSerializer
-
+from drf_yasg.utils import swagger_auto_schema
 
 class CourseListCreate(APIView):
 
@@ -12,6 +12,7 @@ class CourseListCreate(APIView):
         serializer = CourseSerializer(objects, many=True)
         return Response(serializer.data)
 
+    @swagger_auto_schema(request_body=CourseSerializer)
     def post(self, request):
         serializer = CourseSerializer(data=request.data)
 
@@ -32,6 +33,7 @@ class CourseDetail(APIView):
         serializer = CourseSerializer(obj)
         return Response(serializer.data)
 
+    @swagger_auto_schema(request_body=CourseSerializer)
     def put(self, request, id):
         obj = self.get_object(id)
         serializer = CourseSerializer(obj, data=request.data)

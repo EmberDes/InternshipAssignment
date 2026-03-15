@@ -5,7 +5,7 @@ from django.db import models
 class Vendor(models.Model):
     
     name  = models.CharField(max_length=80)
-    code = models.IntegerField(max_length=30, unique=True)
+    code = models.IntegerField(unique=True)
     description = models.TextField()
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)

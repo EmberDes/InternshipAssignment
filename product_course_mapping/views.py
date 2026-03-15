@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import ProductCourseMapping
 from .serializers import ProductCourseMappingSerializer
-
+from drf_yasg.utils import swagger_auto_schema
 
 class ProductCourseMappingListCreate(APIView):
 
@@ -11,7 +11,8 @@ class ProductCourseMappingListCreate(APIView):
         objects = ProductCourseMapping.objects.all()
         serializer = ProductCourseMappingSerializer(objects, many=True)
         return Response(serializer.data)
-
+    
+    @swagger_auto_schema(request_body=ProductCourseMappingSerializer)
     def post(self, request):
         serializer = ProductCourseMappingSerializer(data=request.data)
 
@@ -32,6 +33,7 @@ class ProductCourseMappingDetail(APIView):
         serializer = ProductCourseMappingSerializer(obj)
         return Response(serializer.data)
 
+    @swagger_auto_schema(request_body=ProductCourseMappingSerializer)
     def put(self, request, id):
         obj = self.get_object(id)
         serializer = ProductCourseMappingSerializer(obj, data=request.data)

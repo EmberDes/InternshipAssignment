@@ -13,7 +13,7 @@ class VendorProductMappingSerializer(serializers.ModelSerializer):
         product = data["product"]
         primary = data["primary_mapping"]
 
-        if VendorProductMapping.objects.filter(vendor=vendor, product = product).exists:
+        if VendorProductMapping.objects.filter(vendor=vendor, product = product).exists():
             raise serializers.ValidationError("This Vendor-Product mapping already Exists.")
         
         if primary:

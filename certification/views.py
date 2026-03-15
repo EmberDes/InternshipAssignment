@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Certification
 from .serializers import CertificationSerializer
-
+from drf_yasg.utils import swagger_auto_schema
 
 class CertificationListCreate(APIView):
 
@@ -12,6 +12,7 @@ class CertificationListCreate(APIView):
         serializer = CertificationSerializer(objects, many=True)
         return Response(serializer.data)
 
+    @swagger_auto_schema(request_body=CertificationSerializer)
     def post(self, request):
         serializer = CertificationSerializer(data=request.data)
 
@@ -32,6 +33,7 @@ class CertificationDetail(APIView):
         serializer = CertificationSerializer(obj)
         return Response(serializer.data)
 
+    @swagger_auto_schema(request_body=CertificationSerializer)
     def put(self, request, id):
         obj = self.get_object(id)
         serializer = CertificationSerializer(obj, data=request.data)

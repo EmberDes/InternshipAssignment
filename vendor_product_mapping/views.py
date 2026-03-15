@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import VendorProductMapping
 from .serializers import VendorProductMappingSerializer
-
+from drf_yasg.utils import swagger_auto_schema 
 
 class VendorProductMappingListCreate(APIView):
 
@@ -11,7 +11,8 @@ class VendorProductMappingListCreate(APIView):
         objects = VendorProductMapping.objects.all()
         serializer = VendorProductMappingSerializer(objects, many=True)
         return Response(serializer.data)
-
+    
+    @swagger_auto_schema(request_body=VendorProductMappingSerializer)
     def post(self, request):
         serializer = VendorProductMappingSerializer(data=request.data)
 
@@ -32,6 +33,7 @@ class VendorProductMappingDetail(APIView):
         serializer = VendorProductMappingSerializer(obj)
         return Response(serializer.data)
 
+    @swagger_auto_schema(request_body=VendorProductMappingSerializer)
     def put(self, request, id):
         obj = self.get_object(id)
         serializer = VendorProductMappingSerializer(obj, data=request.data)
